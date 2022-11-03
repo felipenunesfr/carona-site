@@ -18,6 +18,7 @@ site = Flask(__name__)
 
 site.config['UPLOAD_FOLDER'] = fotos
 
+#todas as imagens usadas
 imagem = os.path.join(site.config['UPLOAD_FOLDER'], 'carona.png')
 meu_perfil = os.path.join(site.config['UPLOAD_FOLDER'], 'meu_perfil.png')
 receberfoto = os.path.join(site.config['UPLOAD_FOLDER'], 'receber.png')
@@ -71,7 +72,7 @@ def cadastrar():
     
     return render_template("pagina_cadastro.html", user_image = imagem) 
 
-
+#pega as informações da pagina de cadastro e as valida e depois as cadastro no arquivo texto
 @site.route("/cadastro", methods =["POST"]) 
 def registre():
     
@@ -153,20 +154,24 @@ def registre():
     arq.close()
     return render_template("pagina_login.html", user_image = imagem)    
 
+#imprime os erros de cadastro
 def erros(erro):
     
     return render_template("pagina_cadastro.html", user_image = imagem, erro7 = erro)
 
+#renderize a pagina de menu
 @site.route("/menuinicial")
 def menu_inicial():
     atual()
     linhabranca() 
     return render_template("menu_inicial.html", user_image = imagem, botao1 = meu_perfil, botao2 = darfoto, botao3 = receberfoto)
-    
+
+#renderiza a pagina de dar carona
 @site.route("/darcarona")
 def darcarona():
     return render_template("dar_carona.html", user_image = imagem)
 
+#pega as informações da pagina carona e as armazena no arquivo texto
 @site.route("/darcarona", methods = ['POST'])  
 def dar1():
     
@@ -269,7 +274,8 @@ def dar1():
         bairro = request.form["destino"]
         passagem1 = request.form["passagem1"]
         passagem2 = request.form["passagem2"]
-        
+        return erros_receber("Não pode contar acento!")
+    
     origem = origem.strip()
     bairro = bairro.strip()
     passagem1 = passagem1.strip()
@@ -301,7 +307,13 @@ def dar1():
         bairro = "Qualquer Destino"
         
     if origem == "":
-        origem = "Qualquer Origem"    
+        origem = "Qualquer Origem"
+    
+    erro1 = valida_info(origem[0])
+    erro2 = valida_info(bairro[0])
+    
+    if erro1 == 1 or erro2 == 1:
+        return errosdar("Não pode conter / e -")
             
     caminho = ("\n" + user + "-" + via + "-" + origem + "-" + horario1 + " / " + entre + " / " + horario2 + "-" + bairro + "-" + data1)        
     
@@ -309,13 +321,7 @@ def dar1():
     
     arq2 = open('registrado.txt', 'r')
     
-    l = achar_minhas_caronas(user)
-    l = len(l)
-    
-    if l == 10:
-        return errosdar("Já foi atingido o limite máximo de caronas oferecidas!")
-    
-    elif tela not in arq2:
+    if tela not in arq2:
         arq2.close()
         arq2 = open('registrado.txt', 'a')
         arq2.write(caminho)
@@ -325,15 +331,18 @@ def dar1():
     arq2.close()
     
     return mostrar_oferecidas_page()
-    
+
+#imprime os erros da pagida de dar carona
 def errosdar(erro):
     
     return render_template("dar_carona.html", user_image = imagem, erro7 = erro)
 
+#renderiza a pagina de perfil
 @site.route("/meuperfil")
 def meuperfil(): 
     return render_template("meu_perfil.html", user_image = imagem, botao1 = imagem_dados, botao2 = imagem_oferecidas, botao3 = imagem_desejadas)   
 
+#imprime todas as caronas já oferecidas pelo usuário
 @site.route("/caronasofereciadas")
 def mostrar_oferecidas_page():
     
@@ -356,6 +365,7 @@ def mostrar_oferecidas_page():
         
     return render_template("mostrar_caronas_oferecidas.html", user_image = imagem, caronas = carona, maximo = x, mensagem = mensagem1)
 
+#requesita o numero da carona oferecida a ser excluida
 @site.route("/caronasofereciadas", methods =['POST'])
 def mostrar_oferecidas():
     
@@ -441,6 +451,7 @@ def mostrar_oferecidas():
         
     return render_template("mostrar_caronas_oferecidas.html", user_image = imagem, caronas = carona, maximo = x, mensagem = mensagem1, mensagem2 = men)
 
+#procura as caronas vinculadas ao usuario
 def achar_minhas_caronas(usuario):
     
     z = find(usuario)
@@ -463,14 +474,17 @@ def achar_minhas_caronas(usuario):
     
     return l
 
+#renderiza a pagina de receber carona
 @site.route("/recebercarona")
 def receberpage(): 
     tempo = datetime.now()
     mesAtual = tempo.month
     return render_template("receber_carona.html", user_image = imagem, minimomes = str(mesAtual))  
 
+#requesita as informações sobre receber carona
 @site.route("/recebercarona", methods =['POST'])
 def receber_carona():
+    
     atual()
     linhabranca() 
     try:
@@ -611,6 +625,12 @@ def receber_carona():
         bairro.append((request.form["destino"]).strip())
         passagem1 = request.form["passagem1"]
         passagem2 = request.form["passagem2"]
+    
+    erro1 = valida_info(origem[0])
+    erro2 = valida_info(bairro[0])
+    
+    if erro1 == 1 or erro2 == 1:
+        return erros_receber("Não pode conter / e - !")
         
     passagem1 = passagem1.strip()
     passagem2 = passagem2.strip()
@@ -636,6 +656,8 @@ def receber_carona():
         
         if passagem2 != "" :
             origem.append(passagem2)
+    
+    
     
     if via == "":
         u = pesquisa("volta", 0)
@@ -681,8 +703,19 @@ def receber_carona():
     global caronas_pesquisadas
         
     caronas_pesquisadas = o
-        
+    
+    x2 = ""   
     y = []
+    
+    for r in range(len(l)):
+        x = (l[r]).split("/")
+        x2 = x[0]
+        x2 = x2.strip()
+        x2 = x2.strip("?")
+        x[0] = x2
+        x = " / ".join(x)
+        l[r] = x
+        
     for a in range(len(l)):
         y.append(str(a + 1) + "# " + l[a])
     
@@ -692,13 +725,18 @@ def receber_carona():
     
     return pesquisa_carona_page(y)
 
+#impre os erros da página receber carona   
+def erros_receber(erro):
+    tempo = datetime.now()
+    mesAtual = tempo.month
+    return render_template("receber_carona.html", user_image = imagem, erro7 = erro, minimomes = str(mesAtual))
+
+#renderiza as caronas pesquisadas
 @site.route("/pesquisacarona")
 def pesquisa_carona_page(carona):
     
     if carona != []:
-        carona1 = carona
-        for a in range(len(carona1)):
-            carona1[a] = (carona1[a]).strip("?")
+        carona1 = carona        
             
         x = len(carona)
         resposta = ""
@@ -709,6 +747,7 @@ def pesquisa_carona_page(carona):
         
     return render_template("mostrar_caronas_pesquisa.html", user_image = imagem, caronas = carona1, maximo = x, mensagem = resposta)
 
+#requesita o numero da carona pesquisada a ser vinculada pelo usuário
 @site.route("/pesquisacarona", methods =['POST'])
 def pesquisa_carona():
     
@@ -735,7 +774,8 @@ def pesquisa_carona():
     x = len(caronas_pesquisadas2)
     
     return render_template("mostrar_caronas_pesquisa.html", user_image = imagem, caronas = carona, maximo = x, erro7 = r)
-    
+
+#renderiza a paginda de caronas vinculadas ao perfil
 @site.route("/caronasadicionadas")
 def caronas_adicionadas_page():
     
@@ -806,6 +846,7 @@ def caronas_adicionadas_page():
         
     return render_template("mostrar_caronas_adicionadas.html", user_image = imagem, caronas = u, mensagem = mensagem1, maximo = x)
 
+#requesita o numero da carona  a ser excluida pelo usuário
 @site.route("/caronasadicionadas", methods =['POST'])
 def caronas_adicionadas():
     
@@ -837,6 +878,7 @@ def caronas_adicionadas():
     
     return caronas_adicionadas_page()
 
+#renderiza a paginda que contem todas as informações do usuário
 @site.route("/meusdados")
 def meus_dados():    
     
@@ -868,11 +910,13 @@ def meus_dados():
     
     return render_template("meus_dados.html", user_image = imagem, usuario1 = user, senha1 = senha,  email1 = email, dre1 = dre, telefone1 = telefone )
 
+#renderiza a paginda que edita todas as informações do usuário
 @site.route("/meusdadoseditar")
 def meus_dados_editar_page():    
 
     return render_template("meus_dados_editar.html", user_image = imagem)
-    
+
+#requesita as informações a serem editadas
 @site.route("/meusdadoseditar", methods =['POST'])
 def meus_dados_editar(): 
     
@@ -998,11 +1042,13 @@ def meus_dados_editar():
     
     return meus_dados()
 
+#renderiza a paginda e confirma a exclusão do perfil 
 @site.route("/excluir")
 def exluir_page():
     
     return render_template("excluir.html", user_image = imagem) 
 
+#renderiza a paginda que de confirmação de exclusão
 @site.route("/excluir", methods =['POST'])
 def exluir_page2():
     
@@ -1074,13 +1120,10 @@ def exluir_page2():
         z = int(z[0])
         alterar_linha(z, "")
         return render_template("excluir.html", user_image = imagem, mensagem = "exluida com sucesso")            
-   
-def erros_receber(erro):
-    tempo = datetime.now()
-    mesAtual = tempo.month
-    return render_template("receber_carona.html", user_image = imagem, erro7 = erro, minimomes = str(mesAtual))
+
 
 atual()
 linhabranca()   
+
 if __name__ == "__main__":
     site.run()

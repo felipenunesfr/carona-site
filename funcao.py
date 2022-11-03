@@ -297,6 +297,18 @@ def atual():
         
         alterar_linha(caronas[c], novaslinhas[c])        
 
+#valida as informações das paginas
+def valida_info(e):
+    
+    e = e.strip()
+    acentos = ["-", "/"]
+    
+    for a in acentos:
+        if a in e.lower():
+            return 1
+    else:
+        return 0
+
 #valida uma informação do perfil      
 def validar(e):
     erro = espaco(e)
@@ -304,7 +316,7 @@ def validar(e):
         return erro
     
     e = e.strip()
-    acentos = ["á", "é", "í", "ó", 'ú', "â", "ê", "î", "ô", "û", "ã", "õ", 'à', "è", "ì", "ò", "ù"]
+    acentos = ["á", "é", "í", "ó", 'ú', "â", "ê", "î", "ô", "û", "ã", "õ", 'à', "è", "ì", "ò", "ù", "#", "?", "-", "/"]
     
     for a in acentos:
         if a in e.lower():
@@ -328,7 +340,7 @@ def validarsenha(e):
         return erro
     
     e = e.strip()
-    acentos = ["á", "é", "í", "ó", 'ú', "â", "ê", "î", "ô", "û", "ã", "õ", 'à', "è", "ì", "ò", "ù"]
+    acentos = ["á", "é", "í", "ó", 'ú', "â", "ê", "î", "ô", "û", "ã", "õ", 'à', "è", "ì", "ò", "ù", "#", "?", "-", "/"]
     
     for a in acentos:
         if a in e.lower():
@@ -364,7 +376,7 @@ def validartele(e):
         return erro
     
     e = e.strip()
-    acentos = ["á", "é", "í", "ó", 'ú', "â", "ê", "î", "ô", "û", "ã", "õ", 'à', "è", "ì", "ò", "ù"]
+    acentos = ["á", "é", "í", "ó", 'ú', "â", "ê", "î", "ô", "û", "ã", "õ", 'à', "è", "ì", "ò", "ù", "#", "?", "-", "/"]
     
     for a in acentos:
         if a in e.lower():
