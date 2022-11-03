@@ -4,9 +4,6 @@ from funcao import *
 from datetime import datetime
 import os
 
-
-
-
 caronas_pesquisadas = []
 
 caronas_pesquisadas2 = 0
@@ -833,7 +830,7 @@ def caronas_adicionadas():
     
     return caronas_adicionadas_page()
 
-@site.route("/meusdados", methods =['POST'])
+@site.route("/meusdados")
 def meus_dados():    
     
     try:
