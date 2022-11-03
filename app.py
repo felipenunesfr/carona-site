@@ -274,7 +274,6 @@ def dar1():
         bairro = request.form["destino"]
         passagem1 = request.form["passagem1"]
         passagem2 = request.form["passagem2"]
-        return erros_receber("Não pode contar acento!")
     
     origem = origem.strip()
     bairro = bairro.strip()
@@ -1052,13 +1051,17 @@ def exluir_page():
 @site.route("/excluir", methods =['POST'])
 def exluir_page2():
     
+    
+    try:
+        usuario = str(datauser[0])
+    except:
+        return render_template("pagina_login.html", user_image = imagem)
+    
+    
     if request.method == 'POST':
-        if request.form['botao'] == 'Enviar':
+        if request.form['botao'] == 'SIM':
             
-            try:
-                usuario = str(datauser[0])
-            except:
-                return render_template("pagina_login.html", user_image = imagem)
+            
             
             z = find(usuario)
             m = find("+")
@@ -1073,6 +1076,7 @@ def exluir_page2():
                 with open("registrado.txt") as f:
                     texto = f.readlines()[d]
                     n.append(texto)
+            
             
             for h in range(len(n)):
                 j = str(n[h])
