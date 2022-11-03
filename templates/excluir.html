@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang='pt'>
+<meta charset="utf-8">
+    <head>
+        <title>MEUS DADOS | CARONAUFRJ</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/meus_dados.css') }}">
+    </head>
+
+    <body>
+        <main>
+            <div class="Logo">
+                <img src="{{ user_image }}" alt="User Image" height="100" width="100">
+            </div>
+
+            <h3 class="subtitulo" style = "color: #FF0000">{{mensagem}}</h3>
+
+            <div class="opcoes_perfil">
+                <form name="f_recebercarona" method="post">
+                    <br><br>
+                    {% if not mensagem%}
+                    <h2>Tem cereteza? </h2>
+                    <input type="submit" name="botao" value="Enviar">
+                    {% endif %}
+                    {% if mensagem%}
+                    <h4 class="subtitulo"><a href="http://127.0.0.1:5000/login"  style="color: #FFD700">Pagina inicial</a></h4>
+                    {% endif %}
+                    <br><br>
+                </form>
+            </div>
+            <hr class="observação" align="center">
+            {% if not mensagem%}
+            <h4 class="subtitulo">VOLTAR</h4>
+            <h4 class="subtitulo"><a href="http://127.0.0.1:5000/meusdados"  style="color: #FFD700">Clique aqui</a></h4>
+            {% endif %}
+            
+        </main>
+    </body>
+
+</html>

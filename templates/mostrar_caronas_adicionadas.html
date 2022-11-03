@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang='pt'>
+<meta charset="utf-8">
+    <head>
+        <title>CARONAS DISPONÍVEIS | CARONAUFRJ</title>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mostrar_caronas copy.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <main>
+            <div class="Logo">
+                <img src="{{ user_image }}" alt="User Image" height="100" width="100">
+            </div>
+
+            <h1 class="titulo">CARONAS DISPONÍVEIS | CARONAUFRJ</h1>
+            <h2 class="subtitulo">Abaixo estão as caronas adicionadas:</h2>
+            <div class="caronasdisponiveis">
+            <h1>Caronas Disponíveis:</h1>
+            <h2 class="subtitulo" style = "color: #FFD700"> {{mensagem}}</h2>
+            </div>
+                <ul>
+                    {% for a in caronas%}
+                    <li>{{a}}</li>
+                    {%  endfor %}
+                </ul>
+            <form name="f_recebercarona" action="/caronasadicionadas" method="post">
+                {% if not mensagem%}
+                <label>Deseja excluir alguma carona?: </label>
+                <input type="number" name="escolha" min="1" max={{maximo}} placeholder="Número">
+                <input type="submit" name="f_botao" value="Enviar">
+                {% endif%}
+            </form>
+            <h4><a href="http://127.0.0.1:5000/recebercarona"  style="color: #FFD700">Adicionar uma carona</a></h4>
+            <hr class="observação" align="center">
+            <h4 class="subtitulo">VOLTAR</h4>
+            <h4 class="subtitulo"><a href="http://127.0.0.1:5000/meuperfil"  style="color: #FFD700">Clique aqui</a></h4>
+        
+        </main>
+    </body>
+
+</html>

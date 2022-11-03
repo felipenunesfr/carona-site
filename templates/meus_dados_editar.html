@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='pt'>
+<meta charset="utf-8">
+    <head>
+        <title>MEUS DADOS | CARONAUFRJ</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/meus_dados.css') }}">
+    </head>
+
+    <body>
+        <main>
+            <div class="Logo">
+                <img src="{{ user_image }}" alt="User Image" height="100" width="100">
+            </div>
+
+            <h1 class="titulo">MEUS DADOS | CARONAUFRJ</h1>
+            <h2 class="subtitulo">Segue seus dados a seguir:</h2>
+            <h3 class="subtitulo" style = "color: #FF0000">{{teste}}</h3>
+
+            <div class="opcoes_perfil">
+                <form name="f_recebercarona" action="/meusdadoseditar" method="post">
+                    <br><br>
+                    
+                    <h3>Sua Senha (novo):  </h3>
+                    <input type="text" name="senha1">
+                    <br><br>
+                    <h3>Seu E-mail (novo):  </h3>
+                    <input type="text" name="email1">
+                    <br><br>
+                    <h3>Seu DRE (novo):  </h3>
+                    <input type="text" name="dre1">
+                    <br><br>
+                    <h3>Seu Telefone (novo):  </h3>
+                    <input type="text" name="telefone1">
+                    <br><br>
+                    <br><br>
+                    <input type="submit" name="f_botao" value="Enviar">
+                    <br><br>
+                </form>
+            </div>
+            <hr class="observação" align="center">
+
+            <h4 class="subtitulo">VOLTAR</h4>
+            <h4 class="subtitulo"><a href="http://127.0.0.1:5000/meusdados"  style="color: #FFD700">Clique aqui</a></h4>
+        </main>
+    </body>
+
+</html>

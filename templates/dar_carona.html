@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang='pt'>
+<meta charset="utf-8">
+    <head>
+        <title>DAR CARONA | CARONAUFRJ</title>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/dar_carona.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <main>
+            <div class="Logo">
+                <img src="{{ user_image }}" alt="User Image" height="100" width="100">
+            </div>
+
+            <h1 class="titulo">DAR CARONA | CARONAUFRJ</h1>
+            <h2 class="subtitulo">Preencha os dados da carona abaixo:</h2>
+            <h2 class="subtitulo" style = "color: #FF0000"> {{erro7}}</h2>
+
+            <div class="darcarona">
+                <h1>Dados da Carona</h1>
+                <form name="f_darcarona" action="/darcarona" method="post">
+                    <h3>Ida ou volta?</h3>
+                    <select name="via">
+                        <option value="Ida">ida</option>
+                        <option value="Volta">ida</option>
+                    </select>
+                    <br><br>
+                    <label>Qual o dia da sua carona?* (dd/mm)</label>
+                    <input type="number" name="dia1" min="1" max="31" placeholder="dia"/>
+                    <input type="number" name="mes1" min={{minimomes}} max="12" placeholder="mes"/>
+                    <br><br>
+                    <label>Qual o horário da sua carona? De 5 em 5 minutos (hr/mn)</label>
+                    <input type="number" name="hora1" min="0" max="23" placeholder="Hora">
+                    <input type="number" name="min1" min="0" max="59" step="5" placeholder="min">
+                    <br><br>
+                    <label>Até? De 5 em 5 minutos (hr/mn)</label>
+                    <input type="number" name="hora2" min="0" max="23" placeholder="Hora">
+                    <input type="number" name="min2" min="0" max="59" step="5" placeholder="min">
+                    <br><br>
+                    <label>De onde você vai sair?</label>
+                    <input type="text" name="origem">
+                    <br><br>
+                    <label>Para onde você irá?</label>
+                    <input type="text" name="destino">
+                    <br><br>
+                    <label>Detalhes do seu caminho (bairro):</label>
+                    <input type="text" name="passagem1">
+                    <br><br>
+                    <label>Detalhes do seu caminho (Por onde irá passar):</label>
+                    <input type="text" name="passagem2">
+                    <br><br>
+                    <input type="submit" name="f_botao" value="Enviar">
+                    <br><br>
+                </form>
+            </div>
+
+            <hr class="observação" align="center">
+
+            <h4 class="subtitulo">Desistiu?</h4>
+            <h4 class="subtitulo"><a href="http://127.0.0.1:5000/menuinicial"  style="color: #FFD700">Clique aqui</a></h4>
+        
+        </main>
+    </body>
+
+</html>
