@@ -26,12 +26,14 @@ imagem_dados = os.path.join(site.config['UPLOAD_FOLDER'], 'imagem_dados.png')
 imagem_oferecidas = os.path.join(site.config['UPLOAD_FOLDER'], 'imagem_oferecidas.png')
 imagem_desejadas = os.path.join(site.config['UPLOAD_FOLDER'], 'imagem_desejadas.png')
 
+#renderiza pagina de login
 @site.route("/login")
 @site.route("/")
 def loginpage():
     
     return render_template("pagina_login.html", user_image = imagem)
 
+#requisita as informações do login e as verifica
 @site.route("/login", methods =["POST"])
 def acesso():
     
@@ -62,12 +64,14 @@ def acesso():
             
     else:
         return render_template("pagina_login_erro.html", user_image = imagem)
-    
+
+#renderiza a pagina de cadastro
 @site.route("/cadastro")   
 def cadastrar():
     
     return render_template("pagina_cadastro.html", user_image = imagem) 
-    
+
+
 @site.route("/cadastro", methods =["POST"]) 
 def registre():
     
@@ -155,6 +159,8 @@ def erros(erro):
 
 @site.route("/menuinicial")
 def menu_inicial():
+    atual()
+    linhabranca() 
     return render_template("menu_inicial.html", user_image = imagem, botao1 = meu_perfil, botao2 = darfoto, botao3 = receberfoto)
     
 @site.route("/darcarona")
@@ -465,7 +471,8 @@ def receberpage():
 
 @site.route("/recebercarona", methods =['POST'])
 def receber_carona():
-    
+    atual()
+    linhabranca() 
     try:
         user = str(datauser[0])
     except:
@@ -991,8 +998,13 @@ def meus_dados_editar():
     
     return meus_dados()
 
-@site.route("/excluir", methods =['POST'])
+@site.route("/excluir")
 def exluir_page():
+    
+    return render_template("excluir.html", user_image = imagem) 
+
+@site.route("/excluir", methods =['POST'])
+def exluir_page2():
     
     if request.method == 'POST':
         if request.form['botao'] == 'Enviar':
@@ -1061,9 +1073,7 @@ def exluir_page():
         z = list(z)
         z = int(z[0])
         alterar_linha(z, "")
-        return render_template("excluir.html", user_image = imagem, mensagem = "exluida com sucesso")    
-    else:
-        return render_template("excluir.html", user_image = imagem)    
+        return render_template("excluir.html", user_image = imagem, mensagem = "exluida com sucesso")            
    
 def erros_receber(erro):
     tempo = datetime.now()
