@@ -2,7 +2,7 @@ from datetime import datetime
 
 arq = open('registrado.txt', 'a')
 
-#adiciona uma carona a mesma linha do usuario no arquivo texto
+#adiciona uma carona a mesma linha do usuario no arquivo texto, recebe o nome do usuario e o numero da carona desejada
 def addc(m, t):
     
     m = str(m[0])
@@ -28,7 +28,8 @@ def addc(m, t):
         
     else:
         return 2
-       
+
+#altera uma linha especifica no arquivo       
 def alterar_linha(index_linha,nova_linha):
     
     with open('registrado.txt','r') as f:
@@ -40,6 +41,7 @@ def alterar_linha(index_linha,nova_linha):
             else:
                 f.write(i)
 
+#mostra as caronas que estao atreladas ao perfil
 def desejadas(usuario):
     
     k = pesquisa(codigo(usuario), 0)
@@ -53,6 +55,7 @@ def desejadas(usuario):
 
     return h
 
+#apaga as linhas em branco no arquivo
 def linhabranca():
     
     with open("registrado.txt", 'r') as fr:
@@ -63,7 +66,8 @@ def linhabranca():
 
                 if line.strip('\n') != "":
                     fw.write(line)
-                
+
+#abre uma lista de forma específica              
 def show(z):
     
     z = str(z)
@@ -90,6 +94,7 @@ def show(z):
                       
     return i
 
+#abre uma lista de forma específica  
 def show3(z):
     
     a = 0
@@ -116,7 +121,8 @@ def show3(z):
         i[a] = w  
                            
     return i    
-            
+          
+#abre uma lista de forma específica              
 def show4(z):
     
     z = str(z)
@@ -140,6 +146,7 @@ def show4(z):
                       
     return i
 
+#abre uma lista de forma específica  
 def show2(z):
     
     z = str(z)
@@ -165,14 +172,16 @@ def show2(z):
         i.append(str(g[a]))
                       
     return i
-                
+
+#abre uma lista de forma específica                  
 def abrirl(d):
     x = ""
     for a in range(len(d)):
         y = str(a + 1) + "# " + str(d[a]) + "["
         x = x + y
     return x
-      
+
+#transforma uma lista em uma string de formaa específica
 def LtoS(a):
     y = ""
     for b in range(len(a)):
@@ -180,6 +189,7 @@ def LtoS(a):
         
     return y
 
+#abre uma lista de forma específica 
 def abrir3(f):
     
     f = str(f)
@@ -198,6 +208,7 @@ def abrir3(f):
 
     return user
 
+#pega a data de todas as caronas
 def relogio():
 
     caronas = find("volta") + find("ida")
@@ -217,6 +228,7 @@ def relogio():
 
     return datas
 
+#apaga as caronas que tiveram seus dias passados
 def atual():
 
     datas = relogio()
@@ -284,7 +296,8 @@ def atual():
     for c in range(len(novaslinhas)):
         
         alterar_linha(caronas[c], novaslinhas[c])        
-        
+
+#valida uma informação do perfil      
 def validar(e):
     erro = espaco(e)
     if erro > 0:
@@ -308,6 +321,7 @@ def validar(e):
     else:
         return 0
 
+#valida uma informação do perfil 
 def validarsenha(e):
     erro = espaco(e)
     if erro > 0:
@@ -331,6 +345,7 @@ def validarsenha(e):
     else:
         return 0
     
+#verifica se uma string tem espaço  
 def espaco(x):
     
     a =  " " in  x
@@ -340,6 +355,7 @@ def espaco(x):
     else:
         return 0
 
+#valida uma informação do perfil 
 def validartele(e):
     
     telefone = e
@@ -380,7 +396,8 @@ def validartele(e):
         y = y + x[b]
         
     return y
-    
+
+#transforma uma informação em numero a partir da função ord
 def codigo(u):
     u = u.strip()
     id = []  
@@ -391,12 +408,14 @@ def codigo(u):
     id = "".join(id)
     return id
 
+#verifica se os elementos são diferentes entre si
 def diferente(a, b, c, d, e):
     if a == b or a == c or a == d or a == e or b == c or b == d or b == e or c == d or c == e or d == e:
         return 0
     else:
         return 1
-    
+
+#traduz a informação dada pela função codigo
 def tradutor(codigo):
     y = 1
     palavra = ""
@@ -424,6 +443,7 @@ def tradutor(codigo):
 
     return tudo
 
+#abre uma lista de forma específica 
 def abrir(t):
     with open("registrado.txt", 'r') as fp:
         lines = fp.readlines()
@@ -431,6 +451,7 @@ def abrir(t):
             if line.find(t) != -1:
                 return line
 
+#procura dois elementos em uma lista
 def pesquisa(a, b):
 
     if type(a) != list:
@@ -456,7 +477,8 @@ def pesquisa(a, b):
             y = y + l
        
         return y
-    
+
+#procura um elemento em uma lista
 def find(a):
     x = []
     with open("registrado.txt", 'r') as fp:
@@ -469,16 +491,7 @@ def find(a):
                 x.append(lines.index(line))           
     return x
 
-def codigo(u):
-    u = u.strip()
-    id = []  
-    for letra in u:
-        x = ord(letra) - 28
-        id.append(str(x))
-    
-    id = "".join(id)
-    return id
-     
+#abre uma lista de forma específica       
 def abrir2(f):
     
     f = str(f)
@@ -557,6 +570,7 @@ def abrir2(f):
     
     return u
 
+#valida a hora inserida
 def validarhora(f):
     
     if len(f) > 5:
@@ -580,6 +594,7 @@ def validarhora(f):
         
         return h, m
 
+#valida a data inserida
 def data_valida(d, m):
     
     if d > 31:
@@ -608,6 +623,7 @@ def data_valida(d, m):
     else:
         return 1
     
+#formata a data
 def formatodata(f):
     
     if len(f) != 5:
@@ -635,6 +651,7 @@ def formatodata(f):
     else:
         int("a")
         
+#define um periodo entre uma hora e outro   
 def formatohora(t1, t2):
     h1, m1 = validarhora(t1)
     h2, m2 = validarhora(t2)
@@ -679,7 +696,8 @@ def formatohora(t1, t2):
     y = y.strip()
 
     return y
-           
+
+#verifica se o dia é pelo menos atual
 def conferirdia(dia):
     
     tempo = datetime.now()
@@ -702,7 +720,8 @@ def conferirdia(dia):
     
     else:
         pass
-    
+
+#verifica se a hora é pelo menos atual
 def conferirhora(hora, data):
     
     if data != 0:
@@ -735,8 +754,7 @@ def conferirhora(hora, data):
     else:    
         return 0
 
-
-
+#formata a hora
 def acertar(h):
     
     if h != "":
@@ -749,6 +767,7 @@ def acertar(h):
     
     return h
 
+#define um periodo entre uma dia e outro  
 def periododia1(dia1, dia2):
         
         d1, m1 = dia1.split("/")
